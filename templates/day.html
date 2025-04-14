@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Kalendardagi Kunlar{% endblock %}
+
+{% block content %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <div id="calendar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    {% for detail in day_details %}
+                        {
+                            title: '{{ detail.staff_names|join:", " }}',
+                            start: "{{ detail.date|date:'Y-m-d' }}",
+                            url: "{% url 'day_detail' year=detail.date.year month=detail.date.month day=detail.date.day %}"
+                        },
+                    {% endfor %}
+                ],
+                dateClick: function (info) {
+                    // Har qanday kunga bosilganda day_detail sahifasiga o'tish
+                    var date = new Date(info.dateStr);
+                    var year = date.getFullYear();
+                    var month = date.getMonth() + 1; // JSda oylar 0 dan boshlanadi
+                    var day = date.getDate();
+
+                    // URL ni shakllantirish
+                    var url = `/days/${year}/${month}/${day}/`;
+                    window.location.href = url;
+                }
+            });
+            calendar.render();
+        });
+    </script>
+
+
+{% endblock %}

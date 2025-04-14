@@ -1,0 +1,63 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar/main.min.js"></script>
+
+<head>
+    <style>
+        /* Sana raqamini chap yuqoriga joylashtirish */
+        .fc-daygrid-day-number {
+            float: left;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        /* Katak kontentini biroz ichkariga olish */
+        .fc-daygrid-day-frame {
+            padding: 30px;
+            min-height: 150px;
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <title>{% block title %}Home{% endblock %}</title>
+
+    <!-- Yagona CSS fayli -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+<!-- templates/base.html -->
+<div class="sidebar">
+    <h2>Home page</h2>
+    <ul>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'days' %}">Days</a></li>
+        <li><a href="{% url 'work_times' %}">Working time</a></li>
+        <li><a href="{% url 'stuffs' %}">Staffs</a></li>
+        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+
+    </ul>
+</div>
+
+
+<div class="main-content">
+    {% block content %}
+        <!-- Sahifa asosiy kontenti shu yerda bo'ladi -->
+    {% endblock %}
+</div>
+
+<!-- Yagona JavaScript fayli -->
+<script src="{% static 'script.js' %}"></script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

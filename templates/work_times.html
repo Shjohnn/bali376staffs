@@ -1,0 +1,57 @@
+<!-- templates/work_times.html -->
+{% extends 'base.html' %}
+
+{% block title %}Ish vaqtlar | Admin Paneli{% endblock %}
+
+{% block content %}
+    <h1>Ish vaqtlarini boshqarish</h1>
+    <a href="/add_worktime/" class="btn-link-button">Add</a>
+
+    <style>
+        .btn-link-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn-link-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+<table>
+    <thead>
+    <tr>
+        <th>Oy</th>
+        <th>Kun</th>
+        <th>Foydalanuvchi</th>
+        <th>Boshlanish vaqti</th>
+        <th>Tugash vaqti</th>
+        <th>Davomiylik (soat)</th>
+        <th>Amal</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for wt in work_times %}
+        <tr>
+            <td>{{ wt.date|date:"F" }}</td> <!-- F = oy nomi -->
+            <td>{{ wt.date|date:"j" }}</td> <!-- j = kun raqami -->
+            <td>{{ wt.staff }}</td>
+            <td>{{ wt.start_time }}</td>
+            <td>{{ wt.end_time }}</td>
+            <td>{{ wt.total_hours|floatformat:1 }}</td>
+                    <td>
+                <form method="post" action="{% url 'delete_worktime' wt.pk %}" onsubmit="return confirm('Ish vaqtini o‘chirishni istaysizmi?');">
+                    {% csrf_token %}
+                    <button type="submit" style="color: red;">Delete</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

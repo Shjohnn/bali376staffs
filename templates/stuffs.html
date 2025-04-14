@@ -1,0 +1,80 @@
+<!-- templates/stuffs.html -->
+{% extends 'base.html' %}
+
+{% block title %}Xodimlar | Admin Paneli{% endblock %}
+
+{% block content %}
+
+    <h1>Xodimlarni boshqarish</h1>
+
+<a href="/add_staff/" class="btn-link-button">Add</a>
+
+<style>
+    .btn-link-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .btn-link-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<table>
+    <thead>
+    <tr>
+        <th>No</th>
+        <th>Name</th>
+        <th>Phone number</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for staff in staffs %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                <a href="{% url 'staff_detail' staff.id %}">
+                    {{ staff.name }}
+                </a>
+            </td>
+            <td>{{ staff.phone }}</td>
+            <td>
+                <form method="post" action="{% url 'delete_staff' staff.id %}" onsubmit="return confirm('Xodimni o‘chirishni xohlaysizmi?');">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn">O‘chirish</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Xodimni o‘chirishni xohlaysizmi?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ha, o‘chirish',
+                cancelButtonText: 'Yo‘q'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+{% endblock %}

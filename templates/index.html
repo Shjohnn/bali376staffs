@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home page{% endblock %}
+
+{% block content %}
+<!-- Fullscreen fon videosi -->
+<div class="fullscreen-bg">
+    <video autoplay muted loop playsinline>
+        <source src="{% static 'videos/bali.mp4' %}" type="video/mp4">
+        Sizning brauzeringiz video tasvirlashni qo'llab-quvvatlamaydi.
+    </video>
+</div>
+
+<!-- Mundarijangiz -->
+<div class="content">
+    <h1>Welcome!</h1>
+    <p>Bali 376 staffs are here</p>
+</div>
+{% endblock %}

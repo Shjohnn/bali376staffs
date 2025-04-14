@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Add Worktime{% endblock %}
+
+{% block content %}
+
+    <div class="form-container">
+        <h2>Yangi ish vaqti qo‘shish</h2>
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="staff">Xodim:</label>
+            <select name="staff_id" id="staff" required>
+                {% for staff in staffs %}
+                    <option value="{{ staff.id }}">{{ staff.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="start_time">Boshlanish vaqti:</label>
+            <select name="start_time" id="start_time" required>
+                {% for time in time_choices %}
+                    <option value="{{ time }}">{{ time }}</option>
+                {% endfor %}
+            </select>
+
+
+            <label for="end_time">Tugash vaqti:</label>
+            <select name="end_time" id="end_time" required>
+                {% for time in time_choices %}
+                    <option value="{{ time }}">{{ time }}</option>
+                {% endfor %}
+            </select>
+            <label for="day">Sana (kun):</label>
+            <div class="date-input-wrapper">
+                <input type="date" name="day" id="day" required>
+                <span class="calendar-icon">📅</span>
+            </div>
+            <br>
+            <br>
+            <button type="submit">Saqlash</button>
+        </form>
+    </div>
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 25px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #444;
+            font-weight: bold;
+        }
+
+        select,
+        input[type="time"] {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0066cc;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #004999;
+        }
+    </style>
+
+
+{% endblock %}
