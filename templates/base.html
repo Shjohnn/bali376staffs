@@ -1,6 +1,6 @@
 <!-- templates/base.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 {% load static %}
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar/main.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar/main.min.js"></script>
@@ -22,7 +22,7 @@
     </style>
 
     <meta charset="UTF-8">
-    <title>{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}홈{% endblock %}</title>
 
     <!-- Yagona CSS fayli -->
     <link rel="stylesheet" href="{% static 'style.css' %}">
@@ -34,24 +34,22 @@
 
 <!-- templates/base.html -->
 <div class="sidebar">
-    <h2>Home page</h2>
+    <h2>홈페이지</h2>
     <ul>
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li><a href="{% url 'days' %}">Days</a></li>
-        <li><a href="{% url 'work_times' %}">Working time</a></li>
-        <li><a href="{% url 'stuffs' %}">Staffs</a></li>
+        <li><a href="{% url 'index' %}">홈</a></li>
+        <li><a href="{% url 'days' %}">날짜</a></li>
+        <li><a href="{% url 'work_times' %}">근무 시간</a></li>
+        <li><a href="{% url 'stuffs' %}">직원</a></li>
         <form method="post" action="{% url 'logout' %}" style="display:inline;">
             {% csrf_token %}
-            <button type="submit">Logout</button>
+            <button type="submit">로그아웃</button>
         </form>
-
     </ul>
 </div>
 
-
 <div class="main-content">
     {% block content %}
-        <!-- Sahifa asosiy kontenti shu yerda bo'ladi -->
+        <!-- 페이지의 주요 콘텐츠는 여기에 표시됩니다 -->
     {% endblock %}
 </div>
 

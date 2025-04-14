@@ -1,0 +1,23 @@
+#: templates/stuffs.html:6
+msgid "No"
+msgstr "번호"
+
+#: templates/stuffs.html:7
+msgid "Name"
+msgstr "이름"
+
+#: templates/stuffs.html:8
+msgid "Phone number"
+msgstr "전화번호"
+
+#: templates/stuffs.html:9
+msgid "Action"
+msgstr "작업"
+
+#: templates/stuffs.html:19
+msgid "Xodimni o‘chirishni xohlaysizmi?"
+msgstr "직원을 삭제하시겠습니까?"
+
+#: templates/stuffs.html:21
+msgid "O‘chirish"
+msgstr "삭제"

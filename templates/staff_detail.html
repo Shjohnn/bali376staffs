@@ -4,14 +4,13 @@
 {% block content %}
 <div class="staff-details">
     <h2>{{ staff.name }}</h2>
-    <p>Phone: {{ staff.phone }}</p>
-    <p>Bank account: {{ staff.bank_account }}</p>
+    <p>전화번호: {{ staff.phone }}</p>
+    <p>은행 계좌: {{ staff.bank_account }}</p>
 
     {% if staff.image %}
         <img src="{{ staff.image.url }}" alt="{{ staff.name }}" class="staff-image">
     {% endif %}
 </div>
-
 
 <style>
     .staff-details {
@@ -30,46 +29,46 @@
 <br>
 <br><hr>
 
-    <h3>Ish vaqtlari</h3>
+<h3>근무 시간</h3>
 
-    <form method="get" style="margin-bottom: 20px;">
-        <label for="start_date">Boshlanish sana:</label>
-        <input type="date" name="start_date" id="start_date" value="{{ request.GET.start_date }}">
+<form method="get" style="margin-bottom: 20px;">
+    <label for="start_date">시작 날짜:</label>
+    <input type="date" name="start_date" id="start_date" value="{{ request.GET.start_date }}">
 
-        <label for="end_date">Tugash sana:</label>
-        <input type="date" name="end_date" id="end_date" value="{{ request.GET.end_date }}">
+    <label for="end_date">종료 날짜:</label>
+    <input type="date" name="end_date" id="end_date" value="{{ request.GET.end_date }}">
 
-        <button type="submit">Filter</button>
-    </form>
-    {% if total_hours %}
-        <p><strong>Jami ish soati:</strong> {{ total_hours }} soat</p>
-    {% endif %}
-    <a href="/add_worktime/" class="btn-link-button">Add</a>
+    <button type="submit">필터</button>
+</form>
+{% if total_hours %}
+    <p><strong>총 근무 시간:</strong> {{ total_hours }} 시간</p>
+{% endif %}
+<a href="/add_worktime/" class="btn-link-button">추가</a>
 
-    <style>
-        .btn-link-button {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 14px;
-        }
+<style>
+    .btn-link-button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+    }
 
-        .btn-link-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-  <table>
+    .btn-link-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<table>
     <thead>
     <tr>
-        <th>Oy</th>
-        <th>Sana</th>
-        <th>Boshlanish</th>
-        <th>Tugash</th>
-        <th>Soat</th>
-        <th>Amal</th>  <!-- Yangi ustun -->
+        <th>월</th>
+        <th>날짜</th>
+        <th>시작</th>
+        <th>종료</th>
+        <th>시간</th>
+        <th>작업</th>  <!-- Yangi ustun -->
     </tr>
     </thead>
     <tbody>
@@ -81,39 +80,37 @@
             <td>{{ wt.end_time }}</td>
             <td>{{ wt.total_hours }}</td>
             <td>
-                <form method="post" action="{% url 'delete_worktime' wt.pk %}" onsubmit="return confirm('Ish vaqtini o‘chirishni istaysizmi?');">
+                <form method="post" action="{% url 'delete_worktime' wt.pk %}" onsubmit="return confirm('근무 시간을 삭제하시겠습니까?');">
                     {% csrf_token %}
-                    <button type="submit" style="color: red;">Delete</button>
+                    <button type="submit" style="color: red;">삭제</button>
                 </form>
             </td>
         </tr>
     {% empty %}
         <tr>
-            <td colspan="7">Ma'lumot topilmadi</td>
+            <td colspan="7">정보 없음</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
+<style>
+    .staff-details {
+        margin-bottom: 30px;
+    }
 
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-    <style>
-        .staff-details {
-            margin-bottom: 30px;
-        }
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f0f0f0;
-        }
-    </style>
+    th {
+        background-color: #f0f0f0;
+    }
+</style>
 {% endblock %}

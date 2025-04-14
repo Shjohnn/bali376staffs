@@ -1,36 +1,36 @@
 {% extends 'base.html' %}
-{% block title %}Add Staff{% endblock %}
+{% block title %}직원 추가{% endblock %}
 
 {% block content %}
 
 <div class="form-container">
-    <h2>Add new staff</h2>
+    <h2>새 직원 추가</h2>
 
     <!-- MUHIM: enctype multipart qo‘shildi -->
     <form id="new-staff-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="modal-body">
-            <label for="name">Name:</label>
-            <input type="text" name="name" placeholder="Name ......" id="name"
+            <label for="name">이름:</label>
+            <input type="text" name="name" placeholder="이름 입력..." id="name"
                    class="form-control" required>
             <br>
 
-            <label for="phone">Phone:</label>
-            <input type="text" name="phone" placeholder="Phone number..." id="phone"
+            <label for="phone">전화번호:</label>
+            <input type="text" name="phone" placeholder="전화번호 입력..." id="phone"
                    class="form-control" required>
             <br>
 
-            <label for="bank_account">Bank account:</label>
-            <input type="text" name="bank_account" placeholder="Bank account..." id="bank_account"
+            <label for="bank_account">은행 계좌:</label>
+            <input type="text" name="bank_account" placeholder="은행 계좌 입력..." id="bank_account"
                    class="form-control" required>
             <br>
 
-            <label for="image">Image:</label>
+            <label for="image">사진:</label>
             <!-- rasm uchun file input to‘g‘ridan-to‘g‘ri -->
             <input type="file" name="image" id="image" class="form-control" accept="image/*">
             <br>
 
-            <button type="submit">Save</button>
+            <button type="submit">저장</button>
         </div>
     </form>
 </div>

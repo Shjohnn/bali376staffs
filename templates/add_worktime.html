@@ -1,42 +1,42 @@
 {% extends 'base.html' %}
-{% block title %}Add Worktime{% endblock %}
+{% block title %}근무 시간 추가{% endblock %}
 
 {% block content %}
 
     <div class="form-container">
-        <h2>Yangi ish vaqti qo‘shish</h2>
+        <h2>새 근무 시간 추가</h2>
         <form method="post">
             {% csrf_token %}
 
-            <label for="staff">Xodim:</label>
+            <label for="staff">직원:</label>
             <select name="staff_id" id="staff" required>
                 {% for staff in staffs %}
                     <option value="{{ staff.id }}">{{ staff.name }}</option>
                 {% endfor %}
             </select>
 
-            <label for="start_time">Boshlanish vaqti:</label>
+            <label for="start_time">시작 시간:</label>
             <select name="start_time" id="start_time" required>
                 {% for time in time_choices %}
                     <option value="{{ time }}">{{ time }}</option>
                 {% endfor %}
             </select>
 
-
-            <label for="end_time">Tugash vaqti:</label>
+            <label for="end_time">종료 시간:</label>
             <select name="end_time" id="end_time" required>
                 {% for time in time_choices %}
                     <option value="{{ time }}">{{ time }}</option>
                 {% endfor %}
             </select>
-            <label for="day">Sana (kun):</label>
+
+            <label for="day">날짜 (일):</label>
             <div class="date-input-wrapper">
                 <input type="date" name="day" id="day" required>
                 <span class="calendar-icon">📅</span>
             </div>
             <br>
             <br>
-            <button type="submit">Saqlash</button>
+            <button type="submit">저장</button>
         </form>
     </div>
     <style>
@@ -89,6 +89,5 @@
             background-color: #004999;
         }
     </style>
-
 
 {% endblock %}

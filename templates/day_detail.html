@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ date }} kuni{% endblock %}
+{% block title %}{{ date }} 날짜{% endblock %}
 
 {% block content %}
-    <h2>{{ date }} kuni tafsilotlari</h2>
-    <a href="/add_worktime/" class="btn-link-button">Add</a>
+    <h2>{{ date }} 날짜 세부 정보</h2>
+    <a href="/add_worktime/" class="btn-link-button">추가</a>
 
     <style>
         .btn-link-button {
@@ -26,9 +26,9 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Ism</th>
-                <th>Boshlanish</th>
-                <th>Tugash</th>
+                <th>이름</th>
+                <th>시작 시간</th>
+                <th>종료 시간</th>
             </tr>
             </thead>
             <tbody>
@@ -44,14 +44,12 @@
         </table>
     {% else %}
         <div style="color: #c00; font-weight: bold;">
-            ⚠️ Bu kunga hali hech qanday ish vaqti qo‘shilmagan.
+            ⚠️ 아직 이 날짜에 추가된 근무 시간이 없습니다.
         </div>
     {% endif %}
 
     <!-- From Uiverse.io by TaniaDou -->
     <br>
     <!-- From Uiverse.io by TaniaDou -->
-
-
 
 {% endblock %}

@@ -1,9 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>로그인</title>
     <style>
         body, html {
             height: 100%;
@@ -22,7 +22,6 @@
             z-index: -1;
             object-fit: cover; /* Ensures the video fills the screen */
         }
-
 
         .login-container {
             position: absolute;
@@ -76,11 +75,11 @@
 
 <!-- Login form -->
 <div class="login-container">
-    <h2>Login</h2>
+    <h2>로그인</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Login</button>
+        <button type="submit">로그인</button>
     </form>
 </div>
 

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Kalendardagi Kunlar{% endblock %}
+{% block title %}캘린더의 날짜{% endblock %}
 
 {% block content %}
 
@@ -24,13 +24,13 @@
                     {% endfor %}
                 ],
                 dateClick: function (info) {
-                    // Har qanday kunga bosilganda day_detail sahifasiga o'tish
+                    // 어떤 날짜를 클릭하면 day_detail 페이지로 이동
                     var date = new Date(info.dateStr);
                     var year = date.getFullYear();
-                    var month = date.getMonth() + 1; // JSda oylar 0 dan boshlanadi
+                    var month = date.getMonth() + 1; // JS에서는 월이 0부터 시작
                     var day = date.getDate();
 
-                    // URL ni shakllantirish
+                    // URL 형성
                     var url = `/days/${year}/${month}/${day}/`;
                     window.location.href = url;
                 }
@@ -38,6 +38,5 @@
             calendar.render();
         });
     </script>
-
 
 {% endblock %}

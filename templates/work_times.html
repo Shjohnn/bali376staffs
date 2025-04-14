@@ -1,11 +1,11 @@
 <!-- templates/work_times.html -->
 {% extends 'base.html' %}
 
-{% block title %}Ish vaqtlar | Admin Paneli{% endblock %}
+{% block title %}근무 시간 | 관리자 패널{% endblock %}
 
 {% block content %}
-    <h1>Ish vaqtlarini boshqarish</h1>
-    <a href="/add_worktime/" class="btn-link-button">Add</a>
+    <h1>근무 시간 관리</h1>
+    <a href="/add_worktime/" class="btn-link-button">추가</a>
 
     <style>
         .btn-link-button {
@@ -25,28 +25,28 @@
 <table>
     <thead>
     <tr>
-        <th>Oy</th>
-        <th>Kun</th>
-        <th>Foydalanuvchi</th>
-        <th>Boshlanish vaqti</th>
-        <th>Tugash vaqti</th>
-        <th>Davomiylik (soat)</th>
-        <th>Amal</th>
+        <th>월</th>
+        <th>일</th>
+        <th>사용자</th>
+        <th>시작 시간</th>
+        <th>종료 시간</th>
+        <th>지속 시간 (시간)</th>
+        <th>작업</th>
     </tr>
     </thead>
     <tbody>
     {% for wt in work_times %}
         <tr>
-            <td>{{ wt.date|date:"F" }}</td> <!-- F = oy nomi -->
-            <td>{{ wt.date|date:"j" }}</td> <!-- j = kun raqami -->
+            <td>{{ wt.date|date:"F" }}</td> <!-- F = 월 이름 -->
+            <td>{{ wt.date|date:"j" }}</td> <!-- j = 일 -->
             <td>{{ wt.staff }}</td>
             <td>{{ wt.start_time }}</td>
             <td>{{ wt.end_time }}</td>
             <td>{{ wt.total_hours|floatformat:1 }}</td>
-                    <td>
-                <form method="post" action="{% url 'delete_worktime' wt.pk %}" onsubmit="return confirm('Ish vaqtini o‘chirishni istaysizmi?');">
+            <td>
+                <form method="post" action="{% url 'delete_worktime' wt.pk %}" onsubmit="return confirm('이 근무 시간을 삭제하시겠습니까?');">
                     {% csrf_token %}
-                    <button type="submit" style="color: red;">Delete</button>
+                    <button type="submit" style="color: red;">삭제</button>
                 </form>
             </td>
         </tr>

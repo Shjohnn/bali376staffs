@@ -1,13 +1,13 @@
 <!-- templates/stuffs.html -->
 {% extends 'base.html' %}
 
-{% block title %}Xodimlar | Admin Paneli{% endblock %}
+{% block title %}직원 관리 | 관리자 패널{% endblock %}
 
 {% block content %}
 
-    <h1>Xodimlarni boshqarish</h1>
+    <h1>직원 관리</h1>
 
-<a href="/add_staff/" class="btn-link-button">Add</a>
+<a href="/add_staff/" class="btn-link-button">추가</a>
 
 <style>
     .btn-link-button {
@@ -27,10 +27,10 @@
 <table>
     <thead>
     <tr>
-        <th>No</th>
-        <th>Name</th>
-        <th>Phone number</th>
-        <th>Action</th>
+        <th>번호</th>
+        <th>이름</th>
+        <th>전화번호</th>
+        <th>작업</th>
     </tr>
     </thead>
     <tbody>
@@ -44,9 +44,9 @@
             </td>
             <td>{{ staff.phone }}</td>
             <td>
-                <form method="post" action="{% url 'delete_staff' staff.id %}" onsubmit="return confirm('Xodimni o‘chirishni xohlaysizmi?');">
+                <form method="post" action="{% url 'delete_staff' staff.id %}" onsubmit="return confirm('직원을 삭제하시겠습니까?');">
                     {% csrf_token %}
-                    <button type="submit" class="delete-btn">O‘chirish</button>
+                    <button type="submit" class="delete-btn">삭제</button>
                 </form>
             </td>
         </tr>
@@ -60,11 +60,11 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             Swal.fire({
-                title: 'Xodimni o‘chirishni xohlaysizmi?',
+                title: '직원을 삭제하시겠습니까?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Ha, o‘chirish',
-                cancelButtonText: 'Yo‘q'
+                confirmButtonText: '네, 삭제',
+                cancelButtonText: '아니요'
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();
@@ -73,8 +73,5 @@
         });
     });
 </script>
-
-
-
 
 {% endblock %}
