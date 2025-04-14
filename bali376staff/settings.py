@@ -44,13 +44,14 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'bali376staff.urls'
-
+CSRF_TRUSTED_ORIGINS = ['*']
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -112,9 +113,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 STATIC_URL = 'static/'
 if DEBUG:
-    STATICFILES_DIRS=[BASE_DIR / 'static']
+    STATICFILES_DIRS = [BASE_DIR / 'static']
 else:
-    STATIC_ROOT =BASE_DIR / 'static'
+    STATIC_ROOT = BASE_DIR / 'static'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/'  # login bo'lgach qaysi sahifaga yuborilsin
