@@ -4,24 +4,10 @@
 {% block title %}근무 시간 | 관리자 패널{% endblock %}
 
 {% block content %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <h1>근무 시간 관리</h1>
     <a href="/add_worktime/" class="btn-link-button">추가</a>
 
-    <style>
-        .btn-link-button {
-            display: inline-block;
-            padding: 8px 16px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .btn-link-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 <table>
     <thead>
     <tr>
@@ -30,8 +16,8 @@
         <th>사용자</th>
         <th>시작 시간</th>
         <th>종료 시간</th>
+        <th>쉬는 시간</th>
         <th>지속 시간 (시간)</th>
-        <th>작업</th>
     </tr>
     </thead>
     <tbody>
@@ -42,13 +28,9 @@
             <td>{{ wt.staff }}</td>
             <td>{{ wt.start_time }}</td>
             <td>{{ wt.end_time }}</td>
+            <td>{{ wt.break_time }}</td>
             <td>{{ wt.total_hours|floatformat:1 }}</td>
-            <td>
-                <form method="post" action="{% url 'delete_worktime' wt.pk %}" onsubmit="return confirm('이 근무 시간을 삭제하시겠습니까?');">
-                    {% csrf_token %}
-                    <button type="submit" style="color: red;">삭제</button>
-                </form>
-            </td>
+
         </tr>
     {% endfor %}
     </tbody>

@@ -1,11 +1,12 @@
 import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 
 from django.shortcuts import render, get_object_or_404
 from .models import Day, WorkTime, Staff
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 @login_required
 def index(request):
     return render(request, 'index.html')
@@ -28,6 +29,7 @@ def add_worktime(request):
         staff_id = request.POST.get('staff_id')
         start_time = request.POST.get('start_time')
         end_time = request.POST.get('end_time')
+        break_time = request.POST.get('break_time')
         day = request.POST.get('day')  # bu 'YYYY-MM-DD' formatda bo'ladi
 
         # Sana formatini to'g'rilaymiz
@@ -44,6 +46,7 @@ def add_worktime(request):
             staff_id=staff_id,
             start_time=start_time,
             end_time=end_time,
+            break_time=break_time,
             day=day,
             date=day_date  # ✅ bu yerda POST orqali kelgan sana saqlanadi
         )
@@ -72,26 +75,55 @@ def delete_staff(request, pk):
 
 @login_required
 def staffs(request):
-    staffs = Staff.objects.all()
-    context = {'staffs': staffs}
-    return render(request, 'stuffs.html', context)
+    # faqat superuser barcha xodimlar ro'yxatini ko'radi
+    if request.user.is_superuser:
+        staff_list = Staff.objects.all()
+    else:
+        # Faqat login qilgan xodim ko'rsatilsin
+        staff_list = Staff.objects.filter(user=request.user)
+
+    return render(request, 'stuffs.html', {'staff_list': staff_list})
 
 
-@login_required
+
 def add_staff(request):
     if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        role = request.POST.get('role')
+
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         bank_account = request.POST.get('bank_account')
-        image = request.FILES.get('image')  # Agar rasm bo‘lsa, FILES dan olinadi
+        image = request.FILES.get('image')
 
+        # Foydalanuvchi mavjudligini tekshirish
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Bu username allaqachon mavjud! Boshqa username tanlang.")
+            return render(request, 'add_staff.html')
+
+        # Foydalanuvchini yaratish
+        is_staff = role == 'staff'
+        is_superuser = role == 'superuser'
+
+        user = User.objects.create_user(
+            username=username,
+            password=password,
+            is_staff=is_staff,
+            is_superuser=is_superuser
+        )
+
+        # Staff yaratish
         Staff.objects.create(
+            user=user,
             name=name,
             phone=phone,
             bank_account=bank_account,
             image=image
         )
-        return redirect('stuffs')  # Yaratilgandan keyin redirect qiling
+
+        messages.success(request, "Xodim muvaffaqiyatli qo'shildi!")
+        return redirect('stuffs')
 
     return render(request, 'add_staff.html')
 
@@ -123,25 +155,34 @@ def day_detail(request, year, month, day):
     })
 
 
+
 @login_required
 def staff_detail(request, staff_id):
+    # Staffni olish
     staff = get_object_or_404(Staff, id=staff_id)
+
+    # Cheklash: Agar foydalanuvchi superuser bo'lmasa va ma'lumot unga tegishli bo'lmasa
+    if not request.user.is_superuser and staff.user != request.user:
+        return redirect('stuffs')  # Kirish huquqi yo'q bo'lsa, foydalanuvchilar sahifasiga qaytadi
+
+    # Ish vaqtlarini olish
     worktimes = WorkTime.objects.filter(staff=staff).order_by('-date')
-    from datetime import datetime
+
+    # Filtr: Foydalanuvchi parametr orqali boshlanish va tugash sanasini bersa
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-
     if start_date and end_date:
         try:
             start_date_obj = datetime.strptime(start_date, '%Y-%m-%d').date()
             end_date_obj = datetime.strptime(end_date, '%Y-%m-%d').date()
             worktimes = worktimes.filter(date__range=(start_date_obj, end_date_obj))
         except ValueError:
-            pass
+            pass  # Agar noto'g'ri sana format kiritilsa, filtr qo'llanmaydi
 
     # Total hours hisoblash
     total_hours = sum([wt.total_hours for wt in worktimes])
 
+    # Vaqtni formatlash
     hours = int(total_hours)
     minutes = int((total_hours - hours) * 60)
     formatted_time = f"{hours} soat {minutes} daqiqa"
@@ -152,3 +193,4 @@ def staff_detail(request, staff_id):
         'total_hours': total_hours,
         'formatted_time': formatted_time,
     })
+

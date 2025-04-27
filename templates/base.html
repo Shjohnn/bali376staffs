@@ -6,20 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar/main.min.js"></script>
 
 <head>
-    <style>
-        /* Sana raqamini chap yuqoriga joylashtirish */
-        .fc-daygrid-day-number {
-            float: left;
-            margin: 10px;
-            font-weight: bold;
-        }
-
-        /* Katak kontentini biroz ichkariga olish */
-        .fc-daygrid-day-frame {
-            padding: 30px;
-            min-height: 150px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta charset="UTF-8">
     <title>{% block title %}홈{% endblock %}</title>
@@ -32,9 +19,11 @@
 
 <body>
 
-<!-- templates/base.html -->
 <div class="sidebar">
-    <h2>홈페이지</h2>
+    <h2>    {% if user.is_authenticated %}
+        {{ user.username }}
+
+    {% endif %}</h2>
     <ul>
         <li><a href="{% url 'index' %}">홈</a></li>
         <li><a href="{% url 'days' %}">날짜</a></li>
@@ -48,6 +37,9 @@
 </div>
 
 <div class="main-content">
+    <!-- Login qilingan foydalanuvchi ismi yoki umumiy xabar -->
+
+
     {% block content %}
         <!-- 페이지의 주요 콘텐츠는 여기에 표시됩니다 -->
     {% endblock %}

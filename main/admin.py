@@ -19,8 +19,8 @@ class WorkTimeDayInline(admin.TabularInline):
 class WorkTimeStaffInline(admin.TabularInline):
     model = WorkTime
     extra = 0
-    fields = ('date', 'start_time', 'end_time', 'total_hours')
-    readonly_fields = ('date', 'start_time', 'end_time', 'total_hours')
+    fields = ('date', 'start_time', 'end_time', 'total_hours','break_time')
+    readonly_fields = ('date', 'start_time', 'end_time', 'total_hours','break_time')
     ordering = ('-date',)
 
     def total_hours(self, obj):
@@ -37,7 +37,9 @@ class DayAdmin(admin.ModelAdmin):
 
 @admin.register(WorkTime)
 class WorkTimeAdmin(admin.ModelAdmin):
-    list_display = ('staff', 'date', 'start_time', 'end_time', 'total_hours')
+    list_display = ('staff', 'date', 'start_time', 'end_time','break_time', 'total_hours',)
+    list_filter = ('staff', 'date')
+    search_fields = ('staff__name',)
 
     def total_hours(self, obj):
         return obj.total_hours

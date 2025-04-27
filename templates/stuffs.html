@@ -4,26 +4,12 @@
 {% block title %}직원 관리 | 관리자 패널{% endblock %}
 
 {% block content %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <h1>직원 관리</h1>
 
 <a href="/add_staff/" class="btn-link-button">추가</a>
 
-<style>
-    .btn-link-button {
-        display: inline-block;
-        padding: 8px 16px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 6px;
-        font-size: 14px;
-    }
-
-    .btn-link-button:hover {
-        background-color: #0056b3;
-    }
-</style>
 <table>
     <thead>
     <tr>
@@ -34,7 +20,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for staff in staffs %}
+    {% for staff in staff_list %}
         <tr>
             <td>{{ forloop.counter }}</td>
             <td>

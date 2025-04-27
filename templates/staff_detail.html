@@ -2,6 +2,7 @@
 {% block title %}{{ staff.name }}{% endblock %}
 
 {% block content %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="staff-details">
     <h2>{{ staff.name }}</h2>
     <p>전화번호: {{ staff.phone }}</p>
@@ -12,19 +13,7 @@
     {% endif %}
 </div>
 
-<style>
-    .staff-details {
-        position: relative;
-        padding: 10px;
-    }
 
-    .staff-image {
-        width: 180px;
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-</style>
 <br>
 <br>
 <br><hr>
@@ -45,21 +34,7 @@
 {% endif %}
 <a href="/add_worktime/" class="btn-link-button">추가</a>
 
-<style>
-    .btn-link-button {
-        display: inline-block;
-        padding: 8px 16px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 6px;
-        font-size: 14px;
-    }
 
-    .btn-link-button:hover {
-        background-color: #0056b3;
-    }
-</style>
 <table>
     <thead>
     <tr>
@@ -67,6 +42,7 @@
         <th>날짜</th>
         <th>시작</th>
         <th>종료</th>
+        <th>쉬는 시간</th>
         <th>시간</th>
         <th>작업</th>  <!-- Yangi ustun -->
     </tr>
@@ -78,6 +54,7 @@
             <td>{{ wt.date|date:"j" }}</td>
             <td>{{ wt.start_time }}</td>
             <td>{{ wt.end_time }}</td>
+            <td>{{ wt.break_time }}</td>
             <td>{{ wt.total_hours }}</td>
             <td>
                 <form method="post" action="{% url 'delete_worktime' wt.pk %}" onsubmit="return confirm('근무 시간을 삭제하시겠습니까?');">
@@ -94,23 +71,4 @@
     </tbody>
 </table>
 
-<style>
-    .staff-details {
-        margin-bottom: 30px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-
-    th {
-        background-color: #f0f0f0;
-    }
-</style>
 {% endblock %}

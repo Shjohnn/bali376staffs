@@ -2,6 +2,9 @@
 {% block title %}근무 시간 추가{% endblock %}
 
 {% block content %}
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
 
     <div class="form-container">
         <h2>새 근무 시간 추가</h2>
@@ -34,60 +37,23 @@
                 <input type="date" name="day" id="day" required>
                 <span class="calendar-icon">📅</span>
             </div>
+
+            <!-- 새로 추가된 Break Time Label 및 Input -->
+            <label for="break_time">휴식 시간 (시간):</label>
+            <input
+                    type="number"
+                    name="break_time"
+                    id="break_time"
+                    step="0.1"
+                    value="1"
+                    min="0"
+            >
+
             <br>
             <br>
             <button type="submit">저장</button>
         </form>
     </div>
-    <style>
-        .form-container {
-            max-width: 500px;
-            margin: 40px auto;
-            padding: 25px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            font-family: Arial, sans-serif;
-        }
 
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #444;
-            font-weight: bold;
-        }
-
-        select,
-        input[type="time"] {
-            width: 100%;
-            padding: 8px 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #0066cc;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #004999;
-        }
-    </style>
 
 {% endblock %}
