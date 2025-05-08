@@ -2,6 +2,11 @@ import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseForbidden
+from .models import Staff, WorkTime, Day
+from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404
 from .models import Day, WorkTime, Staff
@@ -19,11 +24,18 @@ def work_times(request):
     return render(request, 'work_times.html', context)
 
 
+
+
 @login_required
 def add_worktime(request):
-    staffs = Staff.objects.all()
+    # kirgan foydalanuvchi superuser bo'lsa, barcha 'Staff'lar ko'rinadi, aksincha faqat o'zining huquqi bor
+    if request.user.is_superuser:
+        staffs = Staff.objects.all()
+    else:
+        staffs = Staff.objects.filter(user=request.user)
+
+    # Vaqt tanlash uchun 7:00 dan 24:30 oralig'ida variantlar
     time_choices = [f"{hour:02}:{minute:02}" for hour in range(7, 25) for minute in (0, 30)]
-    from datetime import datetime
 
     if request.method == 'POST':
         staff_id = request.POST.get('staff_id')
@@ -32,31 +44,42 @@ def add_worktime(request):
         break_time = request.POST.get('break_time')
         day = request.POST.get('day')  # bu 'YYYY-MM-DD' formatda bo'ladi
 
-        # Sana formatini to'g'rilaymiz
+        # Sana formatini to'g'irlash
         try:
             day_date = datetime.strptime(day, '%Y-%m-%d').date()
         except ValueError:
             return HttpResponse("Noto'g'ri sana formati", status=400)
 
-        # Agar Day modelida bu sana mavjud bo'lmasa, yaratamiz
-        day, created = Day.objects.get_or_create(date=day_date)
+        # Staff tekshiruvi: tanlangan 'staff_id' haqiqatdan mavjudligini aniqlaymiz
+        try:
+            staff = Staff.objects.get(id=staff_id)
+        except Staff.DoesNotExist:
+            return HttpResponse("Mavjud bo'lmagan xodim tanlandi", status=404)
 
-        # WorkTime yozuvini yaratish (bu yerda sizning modelga bog'liq)
+        # Oddiy foydalanuvchi faqat o'zining 'staff' ma'lumotlarini qo'sha oladi
+        if not request.user.is_superuser and staff.user != request.user:
+            return HttpResponseForbidden("Siz faqat o'z xodimlaringiz uchun ish vaqti qo'shishingiz mumkin.")
+
+        # Agar Day modelida bu sana mavjud bo'lmasa, yangi yozuv yaratamiz
+        day_instance, _ = Day.objects.get_or_create(date=day_date)
+
+        # 'WorkTime' yozuvini yaratamiz
         WorkTime.objects.create(
-            staff_id=staff_id,
+            staff=staff,
             start_time=start_time,
             end_time=end_time,
             break_time=break_time,
-            day=day,
-            date=day_date  # ✅ bu yerda POST orqali kelgan sana saqlanadi
+            day=day_instance,
         )
 
-        return redirect('work_times')  # kerakli sahifaga qaytarish
+        return redirect('work_times')  # Qo'shgandan keyin kerakli sahifaga qaytaramiz
 
+    # Sahifani render qilish
     return render(request, 'add_worktime.html', {
         'staffs': staffs,
         'time_choices': time_choices,
     })
+
 
 
 @login_required
